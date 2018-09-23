@@ -93,3 +93,38 @@ arr[0]();
 // actually returns 5
 
 
+// Global Function vs Immediately Invoked Function Expression (IIFE)
+
+// Global function
+function makeHelloFunction() {
+	var message = 'Hello!';
+
+	function sayHello() {
+		console.log(message)
+	}
+
+	return sayHello;
+}
+
+const sayHello = makeHelloFunction();
+
+sayHello();
+
+// Immediately Invoked Function Expression (IIFE)
+const sayHello = (function () {
+	var message = 'Hello!';
+
+	function sayHello() {
+		console.log(message)
+	}
+
+	return sayHello;
+})()
+
+sayHello();
+
+
+
+
+
+
