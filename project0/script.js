@@ -49,7 +49,7 @@ list.addEventListener('click', (e) => {
   if (e.target.type === 'checkbox') {
 
     if (e.target.checked === true && uncheckedCount !== 0) {
-      decreaseUncheckedCount()
+      decreaseUncheckedCount();
     }
     if (e.target.checked === false) {
       increaseUncheckedCount();
