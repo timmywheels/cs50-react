@@ -71,7 +71,7 @@ function newTodo() {
 
   const deleteBtn = document.createElement('button');
   deleteBtn.classList.add(classNames.TODO_DELETE);
-  deleteBtn.innerHTML = 'x';
+  deleteBtn.innerHTML = 'x'
 
   if (todo) {
     item.innerHTML = todo;
