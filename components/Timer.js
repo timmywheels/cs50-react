@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
+import { Constants } from 'expo';
+import TimerClock from './TimerClock';
 
 const styles = StyleSheet.create({
+	appContainer: {
+		paddingTop: Constants.statusBarHeight,
+	},
 	text: {
 		'fontSize': 48
+	},
+	button: {
+		backgroundColor: '#333',
+		color: '#fff'
 	}
 });
 
@@ -12,43 +21,39 @@ class Timer extends Component {
 		super(props);
 		this.state = {
 			count: 0,
-			timer: false
+			displayTimer: true
 		}
 	}
 
 
 	toggleTimer() {
-		console.log('count:', this.state.count);
+
 		this.setState({
-			count: setInterval(this.inc, 1000),
-			timer: !this.state.timer,
-		})
+			displayTimer: !this.state.displayTimer,
+		});
+
+		return !this.state.displayTimer ? clearInterval(this.interval) : this.interval = setInterval(this.inc, 1000);
 	}
 
 	componentWillUnmount() {
-		clearInterval(this.state.count)
+		clearInterval(this.interval)
 	}
 
 	inc = () => {
 		this.setState(prevState => ({
-			count: prevState.count + 1,
+				count: prevState.count + 1,
 			})
 		)
-	}
+	};
 
-	render(){
-		if (this.state.timer) {
+	render() {
+		if (this.state.displayTimer) {
 			return (
-				<View>
-					<Text style={styles.text}>{this.state.count}</Text>
-					<Button title={'Start'}  onPress={() => this.toggleTimer()}/>
-				</View>
+				<TimerClock title={'Stop'} onPress={() => this.toggleTimer()} count={this.state.count}/>
 			)
 		} else {
 			return (
-				<View>
-					<Button title={'Start'}  onPress={() => this.toggleTimer()}/>
-				</View>
+				<TimerClock title={'Start'} onPress={() => this.toggleTimer()} count={this.state.count}/>
 			)
 		}
 	}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Timer from './components/Timer';
+import { Constants } from 'expo';
 
 export default class App extends React.Component {
   render() {
@@ -18,5 +19,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+      paddingTop: Constants.statusBarHeight,
   },
 });
