@@ -14,9 +14,10 @@ const styles = StyleSheet.create({
 
 class TimerClock extends Component {
 	render() {
+	this.props.minutes = this.props.minutes < 10 ?  '0' + this.props.minutes: this.props.minutes;
 		return (
 			<View>
-				<Text style={styles.text}>{this.props.count}</Text>
+				<Text style={styles.text}>{this.props.minutes}:{this.props.seconds}</Text>
 				<Button style={styles.button} title={this.props.title}  onPress={this.props.onPress}/>
 			</View>
 		)
