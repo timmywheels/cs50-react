@@ -13,45 +13,29 @@ const styles = StyleSheet.create({
 });
 
 class Timer extends Component {
-	constructor() {
+	constructor(props) {
 		super();
 
 		this.state = {
 			seconds: 5,
 			minutes: 0,
+			timerRunning: false,
 			displayWorkTimer: true,
-			displayBreakTimer: false
+			displayBreakTimer: false,
+			buttonText: 'Start'
 		};
 
 	}
 
 
-	toggleWorkTimer() {
-
-        let { minutes, displayWorkTimer } = this.state;
-
+	toggleTimer() {
+        let { minutes, timerRunning } = this.state;
 		minutes = minutes < 10 ?  minutes.toString().padStart(1, '0'): minutes;
-
 		this.setState({
-			displayWorkTimer: !displayWorkTimer,
+			timerRunning: !timerRunning,
+			buttonText: 'Stop'
 		});
-        console.log('displayWorkTimer:', displayWorkTimer);
-        console.log('displayBreakTimer:', this.state.displayBreakTimer);
-        return !displayWorkTimer ? clearInterval(this.interval) : this.interval = setInterval(this.countdown, 1000);
-	}
-
-	toggleBreakTimer() {
-
-        let { minutes, displayBreakTimer } = this.state;
-
-        minutes = minutes < 10 ?  minutes.toString().padStart(1, '0'): minutes;
-        this.setState({
-            displayBreakTimer: !displayBreakTimer,
-        });
-        console.log('displayWorkTimer:', this.state.displayWorkTimer);
-        console.log('displayBreakTimer:', displayBreakTimer);
-
-        return !displayBreakTimer ? clearInterval(this.interval) : this.interval = setInterval(this.countdown, 1000);
+		return timerRunning ? clearInterval(this.interval) : this.interval = setInterval(this.countdown, 1000);
 	}
 
 	componentWillUnmount() {
@@ -61,10 +45,7 @@ class Timer extends Component {
 	countdown = () => {
 
         let { seconds, minutes, displayWorkTimer, displayBreakTimer } = this.state;
-
-
         // keep double equals to allow type coercion
-
 		// Subtract minutes from work timer,
 		// reset second count to 60
 		if (seconds == 0 && minutes != 0 ) {
@@ -74,80 +55,59 @@ class Timer extends Component {
 			})
 		}
 
-        // Once seconds counter hits 1 & minutes hits 0
+        // Once seconds minutes hits 0
         // Vibrate phone & reset time to 5 minutes
 		// In order to setup break timer
-		if (!displayWorkTimer && seconds == 1 && minutes == 0) {
+		if (displayWorkTimer && seconds == 1 && minutes == 0) {
 			Vibration.vibrate(1000);
 
             clearInterval(this.interval);
 			this.setState({
 				seconds: 1,
 				minutes: 5,
+				timerRunning: false,
 				displayWorkTimer: false,
 				displayBreakTimer: true,
 			})
 		}
 
-        if (displayWorkTimer && seconds == 0 && minutes != 0) {
+        if (displayBreakTimer && seconds == 0 && minutes != 0) {
             this.setState({
                 seconds: 60,
-                minutes: (minutes - 1).toString().padStart(2, '0')
+                minutes: (minutes - 1).toString().padStart(1, '0')
             })
+        }
+
+        if (displayBreakTimer) {
+        	this.changeBackgroundColor();
         }
 
 		// Count down
 		this.setState(prevState => ({
-				seconds: (parseInt(prevState.seconds) - 1).toString().padStart(2, '0'),
+				seconds: (parseInt(prevState.seconds) - 1).toString().padStart(1, '0'),
 			})
 		);
 	};
 
 	render() {
 
-		let { seconds, minutes, displayWorkTimer, displayBreakTimer } = this.state;
+		let { seconds, minutes, timerRunning } = this.state;
 
-        // console.log('displayWorkTimer', displayWorkTimer);
-        // console.log('displayBreakTimer', displayWorkTimer);
-
-
-			if (displayWorkTimer && !displayBreakTimer) {
-				// console.log('displayWorkTimer->top', displayWorkTimer);
+		if (!timerRunning) {
 				return (
 					<View>
-						<TimerClock style={styles.timerColor} title={'START >'} onPress={() => this.toggleWorkTimer()} minutes={minutes.toString().padStart(1, '0')} seconds={seconds.toString().padStart(2, '0')}/>
+						<TimerClock style={styles.timerColor} title={'Start'} onPress={() => this.toggleTimer()} minutes={minutes.toString().padStart(1, '0')} seconds={seconds.toString().padStart(2, '0')}/>
 					</View>
 				)
 			}
-			else if (!displayWorkTimer && !displayBreakTimer && seconds > 0) {
-                // console.log('displayWorkTimer->bottom', displayWorkTimer);
-                // console.log('seconds', seconds);
-				return (
-					<View>
-						<TimerClock title={'PAUSE ||'} onPress={() => this.toggleWorkTimer()} minutes={minutes.toString().padStart(1, '0')} seconds={seconds.toString().padStart(2, '0')}/>
-					</View>
-				)
-			}
-
-			else if (displayBreakTimer && minutes == 5) {
-                return (
-                    <View>
-                        <TimerClock title={'START BREAK'} onPress={() => this.toggleBreakTimer()} minutes={minutes.toString().padStart(1, '0')} seconds={seconds.toString().padStart(2, '0')}/>
-                    </View>
-                )
-			}
-			else {
-                return (
-                    <View>
-                        <TimerClock title={'PAUSE BREAK'} onPress={() => this.toggleBreakTimer()} minutes={minutes.toString().padStart(1, '0')} seconds={seconds.toString().padStart(2, '0')}/>
-                    </View>
-                )
-            }
+		if (timerRunning) {
+			return (
+				<View>
+					<TimerClock style={styles.timerColor} title={'Stop'} onPress={() => this.toggleTimer()} minutes={minutes.toString().padStart(1, '0')} seconds={seconds.toString().padStart(2, '0')}/>
+				</View>
+			)
 		}
-
-
-	// }
-
+	}
 }
 
 export default Timer;

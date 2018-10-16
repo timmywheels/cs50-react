@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
-import {Constants, AppLoading, Font } from "expo";
+import { AppLoading, Font } from "expo";
 
 const styles = StyleSheet.create({
 	text: {
@@ -10,16 +10,9 @@ const styles = StyleSheet.create({
 		letterSpacing: 1
 
 	},
-	button: {
-		backgroundColor: '#333',
-		color: '#fff',
-		fontFamily: 'Inconsolata',
-		letterSpacing: 1
-	}
 });
 
 class TimerClock extends Component {
-
 	state ={
         isReady: false
     };
@@ -29,7 +22,6 @@ class TimerClock extends Component {
             await Font.loadAsync({
                 'Inconsolata': require('../assets/fonts/Inconsolata/Inconsolata-Regular.ttf')
             });
-
             this.setState({isReady: true});
         })();
     }
