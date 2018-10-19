@@ -1,8 +1,14 @@
 import React, {Component} from 'react';
-import {Button, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {AppLoading, Font} from "expo";
+import TWLogo from '../assets/tw-logo-white.png';
 
 const styles = StyleSheet.create({
+	container: {
+		justifyContent: 'center',
+		alignItems: 'center',
+		flexDirection: 'column'
+	},
 	timerText: {
 		fontSize: 48,
 		color: '#fff',
@@ -22,14 +28,13 @@ const styles = StyleSheet.create({
 		position: 'fixed'
 	},
 	twLogo: {
-		fontFamily: 'NunitoBlack',
-		color: '#fff',
-		textAlign: 'center',
-		fontSize: 50,
-		fontWeight: '900',
-		marginTop: -100,
-		marginBottom: 100,
-		position: 'fixed'
+		height: 50,
+		width: 50,
+		marginTop: 200,
+		marginBottom: -200,
+		opacity: 0.25,
+		position: 'fixed',
+		justifyContent: 'space-between'
 	},
 	btnText: {
 		fontFamily: 'NunitoBlack',
@@ -75,7 +80,7 @@ class TimerClock extends Component {
 
 		this.props.minutes = this.props.minutes < 10 ? '0' + this.props.minutes : this.props.minutes;
 		return (
-			<View>
+			<View style={styles.container}>
 				<Text style={styles.logoText}>pomo</Text>
 				<Text style={styles.timerText}>{this.props.minutes}:{this.props.seconds}</Text>
 				<TouchableOpacity
@@ -85,6 +90,7 @@ class TimerClock extends Component {
 				>
 					<Text style={styles.btnText}>{this.props.title.toUpperCase()}</Text>
 				</TouchableOpacity>
+				<Image style={styles.twLogo} source={TWLogo}/>
 			</View>
 		)
 	}
