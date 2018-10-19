@@ -28,11 +28,6 @@ class App extends React.Component {
       </View>
     );
   }
-
-  changeBackgroundColor = () => {
-    styles.container.backgroundColor = '#a3d4b1';
-  }
-
 }
 
 

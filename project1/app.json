@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "project1",
-    "description": "This project is really great.",
-    "slug": "project1",
+    "name": "Pomodoro Timer",
+    "description": "A simple Pomodoro timer ⏱",
+    "slug": "pomodoro-timer",
     "privacy": "public",
     "sdkVersion": "25.0.0",
     "platforms": [

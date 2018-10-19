@@ -12,13 +12,15 @@ const styles = StyleSheet.create({
 	}
 });
 
+const DEFAULT_WORK_MINS = 25;
+
 class Timer extends Component {
 	constructor(props) {
 		super();
 
 		this.state = {
-			seconds: 5,
-			minutes: 0,
+			seconds: 0,
+			minutes: DEFAULT_WORK_MINS,
 			timerRunning: false,
 			displayWorkTimer: true,
 			displayBreakTimer: false,
@@ -63,7 +65,7 @@ class Timer extends Component {
 
             clearInterval(this.interval);
 			this.setState({
-				seconds: 1,
+				seconds: 0,
 				minutes: 5,
 				timerRunning: false,
 				displayWorkTimer: false,
@@ -78,9 +80,16 @@ class Timer extends Component {
             })
         }
 
-        if (displayBreakTimer) {
-        	this.changeBackgroundColor();
-        }
+		if (displayBreakTimer && seconds == 0 && minutes == 0) {
+			clearInterval(this.interval);
+			this.setState({
+				seconds: 1,
+				minutes: 0,
+				timerRunning: false
+			})
+		}
+
+
 
 		// Count down
 		this.setState(prevState => ({
