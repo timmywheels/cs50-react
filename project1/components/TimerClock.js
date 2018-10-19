@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {Image, StyleSheet, Text, View, TouchableOpacity, Linking} from 'react-native';
 import {AppLoading, Font} from "expo";
 import TWLogo from '../assets/tw-logo-white.png';
 
@@ -90,7 +90,9 @@ class TimerClock extends Component {
 				>
 					<Text style={styles.btnText}>{this.props.title.toUpperCase()}</Text>
 				</TouchableOpacity>
-				<Image style={styles.twLogo} source={TWLogo}/>
+				<Image style={styles.twLogo} source={TWLogo}
+				       onPress={() => Linking.openURL('http://timwheeler.com')}
+				/>
 			</View>
 		)
 	}
